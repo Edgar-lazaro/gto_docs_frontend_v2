@@ -6,11 +6,13 @@ const qaConfig = AppConfig(
 
   //  Red / LAN
   allowedIpRanges: [
-    '192.168.1.72/24',
+    '192.168.0.0/16',
+    '10.0.0.0/8',
+    '172.16.0.0/12',
   ],
 
   //  Backend
-  apiBaseUrl: '192.168.1.72',
+  apiBaseUrl: 'gto-docs-server.lan',
   apiPort: 3000,
   useHttps: false,
 
@@ -19,7 +21,7 @@ const qaConfig = AppConfig(
   useJwt: true,
 
   //  GLPI
-  glpiBaseUrl: 'http://192.168.1.72/glpi',
+  glpiBaseUrl: 'http://gto-docs-server.lan/glpi',
   glpiApiToken: 'PENDIENTE_DE_TI',
   glpiEntityId: 0,
 
