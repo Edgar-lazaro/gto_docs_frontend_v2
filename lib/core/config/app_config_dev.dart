@@ -6,11 +6,11 @@ const devConfig = AppConfig(
 
   // Red / LAN
   allowedIpRanges: [
-    'ip_ait/24',
+    '192.168.1.72/24',
   ],
 
   // Backend
-  apiBaseUrl: 'ip_ait',
+  apiBaseUrl: '192.168.1.72',
   apiPort: 3000,
   useHttps: false,
 
@@ -19,7 +19,7 @@ const devConfig = AppConfig(
   useJwt: true,
 
   // GLPI
-  glpiBaseUrl: 'http://ip_ait/glpi',
+  glpiBaseUrl: 'http://192.168.1.72/glpi',
   glpiApiToken: 'PENDIENTE_DE_TI',
   glpiEntityId: 0,
 

@@ -43,3 +43,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Local "PC servidor" storage (user-generated files)
+# Keep folder structure but ignore actual uploaded/generated content.
+/server_storage/**
+!/server_storage/**/.gitkeep

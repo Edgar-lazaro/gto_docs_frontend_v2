@@ -75,6 +75,46 @@ flutter run --release
 - Limpieza general:
 
 ```bash
-flutter clean
-flutter pub get
+ flutter clean
+ flutter pub get
+
+## Archivos generados por el usuario (PC como servidor)
+
+Si el requerimiento es que **PDFs e imágenes subidas/generadas por el usuario** se guarden en una carpeta aparte (simulando una PC en la LAN como servidor), la práctica recomendada es:
+
+1) **Carpeta de almacenamiento fuera de `assets/`**
+	 - `assets/` es solo para archivos empaquetados con la app Flutter.
+	 - Los archivos generados/subidos deben guardarse en la PC servidor (backend) en una carpeta tipo:
+		 - `server_storage/` (en este repo, recomendado para LAN)
+			 - `server_storage/imagenes/tareas/`
+			 - `server_storage/imagenes/reportes/`
+			 - `server_storage/imagenes/checklists/`
+			 - `server_storage/documentos/tareas/pdfs/`
+			 - `server_storage/documentos/tareas/otros/`
+			 - `server_storage/documentos/reportes/pdfs/`
+			 - `server_storage/documentos/reportes/otros/`
+			 - `server_storage/documentos/checklists/pdfs/`
+			 - `server_storage/documentos/checklists/otros/`
+
+2) **Backend sirve esos archivos como estáticos**
+	 - Configurar el backend para escribir a esa carpeta (ej. `STORAGE_ROOT=/ruta/.../server_storage`).
+	 - Configurar un base público para construir URLs estables (LAN):
+		 - `PUBLIC_BASE_URL=http://ap_ait:3000`
+		 - `UPLOADS_BASE=${PUBLIC_BASE_URL}/uploads` (ej: `http://ap_ait:3000/uploads`)
+	 - Exponerlos por HTTP: `GET /uploads/...` apuntando a `STORAGE_ROOT`.
+	 - Convención de rutas públicas:
+		 - Tareas (imágenes): `/uploads/imagenes/tareas/<archivo>`
+		 - Tareas (PDFs): `/uploads/documentos/tareas/pdfs/<archivo>`
+		 - Tareas (otros docs): `/uploads/documentos/tareas/otros/<archivo>`
+		 - Reportes/Checklists (imágenes): `/uploads/imagenes/reportes/<archivo>` y `/uploads/imagenes/checklists/<archivo>`
+		 - Reportes/Checklists (PDFs): `/uploads/documentos/reportes/pdfs/<archivo>` y `/uploads/documentos/checklists/pdfs/<archivo>`
+		 - Reportes/Checklists (otros docs): `/uploads/documentos/reportes/otros/<archivo>` y `/uploads/documentos/checklists/otros/<archivo>`
+
+3) **Cliente Flutter apunta a la IP de la PC servidor en la LAN**
+	- En configuración (dev/qa/prod) usar `apiBaseUrl` = IP/hostname de la PC servidor y el puerto correspondiente.
+	- Offline-first: el cliente guarda local y al recuperar LAN sube el archivo; el servidor responde con la URL final.
+
+Notas:
+- `server_storage/` está ignorado por git (solo se conserva la estructura con `.gitkeep`).
+- En Windows/macOS/Linux, asegurar permisos de escritura para el proceso del backend sobre `server_storage/`.
 ```
